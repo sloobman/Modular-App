@@ -1,8 +1,31 @@
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
+using System.Text.Json;
+
+var configPath = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
+List<string> moduleNames;
+
+try
+{
+    moduleNames = ModuleLoader.LoadModuleNames(configPath);
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Ошибка: {ex.Message}");
+    return;
+}
 
 var loader = new ModuleLoader();
-var modules = loader.LoadModules();
+List<IModule> modules;
+
+try
+{
+    modules = loader.LoadModules(moduleNames);
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Ошибка: {ex.Message}");
+    return;
+}
 
 var resolver = new DependencyResolver();
 List<IModule> ordered;

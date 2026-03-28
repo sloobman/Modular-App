@@ -22,4 +22,40 @@ public class ModuleTests
         Assert.NotNull(service1);
         Assert.Equal(service1, service2); // Singleton
     }
+
+    [Fact]
+    public void Should_Run_Modules_And_Show_Module_Actions()
+    {
+        // Arrange
+        var modules = new List<IModule>
+        {
+            new LoggingModule(),
+            new ValidationModule(),
+            new ReportModule()
+        };
+
+        var runner = new ModuleRunner();
+        var originalOut = Console.Out;
+
+        try
+        {
+            using var writer = new StringWriter();
+            Console.SetOut(writer);
+
+            // Act
+            runner.Run(modules);
+
+            var output = writer.ToString();
+
+            // Assert
+            Assert.Contains("Запуск: Logging", output);
+            Assert.Contains("Logging initialized", output);
+            Assert.Contains("Validation executed", output);
+            Assert.Contains("Report generated", output);
+        }
+        finally
+        {
+            Console.SetOut(originalOut);
+        }
+    }
 }

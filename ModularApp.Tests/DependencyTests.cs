@@ -28,6 +28,28 @@ public class DependencyTests
     }
 
     [Fact]
+    public void Should_Order_Modules_Correctly_For_Complex_Graph()
+    {
+        // Arrange
+        var modules = new List<IModule>
+        {
+            new TopologyA(),
+            new TopologyB(),
+            new TopologyC(),
+            new TopologyD()
+        };
+
+        var resolver = new DependencyResolver();
+
+        // Act
+        var ordered = resolver.Resolve(modules);
+        var names = ordered.Select(m => m.Name).ToList();
+
+        // Assert
+        Assert.Equal(new[] { "A", "B", "C", "D" }, names);
+    }
+
+    [Fact]
     public void Should_Throw_When_Dependency_Missing()
     {
         // Arrange
@@ -86,6 +108,60 @@ public class DependencyTests
     {
         public string Name => "B";
         public IEnumerable<string> Dependencies => new[] { "A" };
+
+        public void RegisterServices(IServiceCollection services) { }
+        public void Initialize(IServiceProvider provider) { }
+    }
+
+    class ModuleC : IModule
+    {
+        public string Name => "C";
+        public IEnumerable<string> Dependencies => new[] { "A" };
+
+        public void RegisterServices(IServiceCollection services) { }
+        public void Initialize(IServiceProvider provider) { }
+    }
+
+    class ModuleD : IModule
+    {
+        public string Name => "D";
+        public IEnumerable<string> Dependencies => new[] { "B", "C" };
+
+        public void RegisterServices(IServiceCollection services) { }
+        public void Initialize(IServiceProvider provider) { }
+    }
+
+    class TopologyA : IModule
+    {
+        public string Name => "A";
+        public IEnumerable<string> Dependencies => Array.Empty<string>();
+
+        public void RegisterServices(IServiceCollection services) { }
+        public void Initialize(IServiceProvider provider) { }
+    }
+
+    class TopologyB : IModule
+    {
+        public string Name => "B";
+        public IEnumerable<string> Dependencies => new[] { "A" };
+
+        public void RegisterServices(IServiceCollection services) { }
+        public void Initialize(IServiceProvider provider) { }
+    }
+
+    class TopologyC : IModule
+    {
+        public string Name => "C";
+        public IEnumerable<string> Dependencies => new[] { "A" };
+
+        public void RegisterServices(IServiceCollection services) { }
+        public void Initialize(IServiceProvider provider) { }
+    }
+
+    class TopologyD : IModule
+    {
+        public string Name => "D";
+        public IEnumerable<string> Dependencies => new[] { "B", "C" };
 
         public void RegisterServices(IServiceCollection services) { }
         public void Initialize(IServiceProvider provider) { }
