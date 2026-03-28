@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 public class ModuleRunner
 {
     public void Run(List<IModule> modules)

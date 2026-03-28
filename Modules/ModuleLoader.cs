@@ -1,3 +1,5 @@
+using System.Reflection;
+
 public class ModuleLoader
 {
     public List<IModule> LoadModules()
