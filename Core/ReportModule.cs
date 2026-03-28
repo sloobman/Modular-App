@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 public class ReportModule : IModule
 {
     public string Name => "Report";

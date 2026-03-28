@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 public interface ILoggerService
 {
     void Log(string message);

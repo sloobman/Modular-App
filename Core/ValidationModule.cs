@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 public class ValidationModule : IModule
 {
     public string Name => "Validation";
