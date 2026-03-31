@@ -30,6 +30,7 @@ public class ModuleTests
         var modules = new List<IModule>
         {
             new LoggingModule(),
+            new DataModule(),
             new ValidationModule(),
             new ReportModule()
         };
@@ -49,8 +50,9 @@ public class ModuleTests
 
             // Assert
             Assert.Contains("Запуск: Logging", output);
-            Assert.Contains("Logging initialized", output);
-            Assert.Contains("Validation executed", output);
+            Assert.Contains("Запуск: Data", output);
+            Assert.Contains("Запуск: Validation", output);
+            Assert.Contains("Запуск: Report", output);
             Assert.Contains("Report generated", output);
         }
         finally

@@ -13,6 +13,7 @@ public class DependencyTests
         var modules = new List<IModule>
         {
             new LoggingModule(),
+            new DataModule(),
             new ValidationModule(),
             new ReportModule()
         };
@@ -24,7 +25,7 @@ public class DependencyTests
         var names = ordered.Select(m => m.Name).ToList();
 
         // Assert
-        Assert.Equal(new[] { "Logging", "Validation", "Report" }, names);
+        Assert.Equal(new[] { "Logging", "Data", "Validation", "Report" }, names);
     }
 
     [Fact]
